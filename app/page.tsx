@@ -1,5 +1,6 @@
+import { auth0 } from "@/lib/auth0";
 import { Manrope, Space_Grotesk } from "next/font/google";
-import Navbar from "./components/Navbar";
+import { redirect } from "next/navigation";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -44,13 +45,17 @@ const metrics = [
   { label: "Renewals this week", value: "8" },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth0.getSession();
+
+  if (session?.user) {
+    redirect("/auth/pages/Dashboard");
+  }
+
   return (
     <div
-      className={`${manrope.className} ${spaceGrotesk.variable} finance-shell pb-16`}
+      className={`${manrope.className} ${spaceGrotesk.variable} pb-16`}
     >
-      <Navbar />
-
       <main className='mx-auto w-[min(1120px,92%)]'>
         <section
           id='home'
@@ -293,7 +298,8 @@ export default function HomePage() {
               FAQ
             </p>
             <h4 className='mt-3 font-[family-name:var(--font-space-grotesk)] text-xl font-semibold text-[var(--finance-ink)]'>
-              "Can I track personal and team subscriptions in one place?"
+              &quot;Can I track personal and team subscriptions in one
+              place?&quot;
             </h4>
             <p className='mt-3 text-sm text-[var(--finance-muted)]'>
               Yes. Create separate workspaces and switch between personal and
