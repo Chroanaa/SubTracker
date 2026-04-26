@@ -251,7 +251,7 @@ export default function Sidebar({ user }: SidebarProps) {
 
         <aside
           id='mobile-sidebar-drawer'
-          className={`absolute left-0 top-0 flex h-full w-[min(82vw,320px)] flex-col border-r border-white/70 bg-[#f7f9ff] p-4 shadow-[0_24px_70px_rgba(17,21,44,0.2)] transition-transform duration-200 ${
+          className={`absolute left-0 top-0 flex h-full w-[min(88vw,340px)] flex-col overflow-y-auto border-r border-white/70 bg-[#f7f9ff] p-4 shadow-[0_24px_70px_rgba(17,21,44,0.2)] transition-transform duration-200 ${
             isDrawerOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -273,9 +273,9 @@ export default function Sidebar({ user }: SidebarProps) {
               type='button'
               aria-label='Close sidebar menu'
               onClick={() => setIsDrawerOpen(false)}
-              className='inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--finance-border)] bg-white text-xl leading-none text-[var(--finance-ink)]'
+              className='inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--finance-border)] bg-white text-sm font-semibold leading-none text-[var(--finance-ink)]'
             >
-              ×
+              Close
             </button>
           </div>
 
@@ -322,7 +322,7 @@ export default function Sidebar({ user }: SidebarProps) {
         </aside>
       </div>
 
-      <aside className='sticky top-0 hidden h-screen w-72 shrink-0 self-start p-4 lg:flex'>
+      <aside className='sticky top-0 hidden h-screen w-72 shrink-0 self-start p-4 lg:flex xl:w-80'>
         <div className='flex h-full w-full flex-col rounded-2xl border border-white/70 bg-white/80 p-4 backdrop-blur'>
           <Link href='/' className='inline-flex items-center gap-3'>
             <span className='grid h-10 w-10 place-items-center rounded-full bg-[linear-gradient(135deg,var(--finance-primary),#69a7ff)] text-xs font-extrabold tracking-wide text-white shadow-[0_12px_24px_rgba(61,99,255,0.35)]'>

@@ -16,8 +16,8 @@ export default function AuthLayout({ children, user }: AuthLayoutProps) {
     <div className='finance-shell flex min-h-screen flex-col text-[var(--finance-ink)] lg:flex-row'>
       <Sidebar user={user} />
 
-      <div className='flex min-h-screen flex-1 flex-col'>
-        <main className='flex-1 p-4 md:p-6 xl:p-8'>{children}</main>
+      <div className='flex min-h-screen min-w-0 flex-1 flex-col'>
+        <main className='flex-1 p-4 sm:p-5 md:p-6 xl:p-8'>{children}</main>
       </div>
     </div>
   );
