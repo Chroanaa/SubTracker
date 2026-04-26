@@ -39,7 +39,7 @@ export default async function RootLayout({
           {isAuthenticated ? (
             <AuthLayout user={session?.user}>{children}</AuthLayout>
           ) : (
-            <GuestLayout>{children}</GuestLayout>
+            <GuestLayout isLoggedIn={isAuthenticated}>{children}</GuestLayout>
           )}
         </Auth0Provider>
       </body>

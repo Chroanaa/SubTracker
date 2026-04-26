@@ -1,5 +1,6 @@
+import { auth0 } from "@/lib/auth0";
 import { Manrope, Space_Grotesk } from "next/font/google";
-import Navbar from "./components/Navbar";
+import { redirect } from "next/navigation";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -44,23 +45,25 @@ const metrics = [
   { label: "Renewals this week", value: "8" },
 ];
 
-export default function HomePage() {
-  return (
-    <div
-      className={`${manrope.className} ${spaceGrotesk.variable} finance-shell pb-16`}
-    >
-      <Navbar />
+export default async function HomePage() {
+  const session = await auth0.getSession();
 
+  if (session?.user) {
+    redirect("/auth/pages/Dashboard");
+  }
+
+  return (
+    <div className={`${manrope.className} ${spaceGrotesk.variable} pb-14 sm:pb-16`}>
       <main className='mx-auto w-[min(1120px,92%)]'>
         <section
           id='home'
-          className='grid items-center gap-12 pb-16 pt-10 lg:grid-cols-[1.05fr_0.95fr]'
+          className='grid items-center gap-10 pb-14 pt-8 sm:gap-12 sm:pb-16 sm:pt-10 lg:grid-cols-[1.05fr_0.95fr]'
         >
           <div className='fade-rise'>
             <p className='inline-flex rounded-full border border-[var(--finance-border)] bg-white px-3 py-1 text-xs font-semibold tracking-wide text-[var(--finance-primary)]'>
               Subscription Tracker SaaS
             </p>
-            <h1 className='mt-5 max-w-xl font-[family-name:var(--font-space-grotesk)] text-4xl font-bold leading-tight text-[var(--finance-ink)] sm:text-5xl'>
+            <h1 className='mt-5 max-w-xl font-[family-name:var(--font-space-grotesk)] text-3xl font-bold leading-tight text-[var(--finance-ink)] sm:text-4xl lg:text-5xl'>
               Stop Losing Money to Forgotten Subscriptions
             </h1>
             <p className='mt-5 max-w-lg text-base leading-7 text-[var(--finance-muted)]'>
@@ -69,16 +72,16 @@ export default function HomePage() {
               and keep expenses visible in one calm dashboard.
             </p>
 
-            <div className='mt-8 flex flex-wrap gap-3'>
+            <div className='mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap'>
               <a
                 href='/login'
-                className='inline-flex items-center rounded-full bg-[linear-gradient(135deg,var(--finance-primary),#5f87ff)] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(61,99,255,0.35)]'
+                className='inline-flex items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--finance-primary),#5f87ff)] px-6 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(61,99,255,0.35)]'
               >
                 Log In With Social
               </a>
               <a
                 href='#features'
-                className='inline-flex items-center rounded-full border border-[var(--finance-primary)] px-6 py-3 text-sm font-semibold text-[var(--finance-primary)]'
+                className='inline-flex items-center justify-center rounded-full border border-[var(--finance-primary)] px-6 py-3 text-sm font-semibold text-[var(--finance-primary)]'
               >
                 Explore Features
               </a>
@@ -106,8 +109,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className='relative fade-rise stagger-1'>
-            <div className='pointer-events-none absolute -left-16 -top-12 h-44 w-44 rounded-full bg-[radial-gradient(circle,_rgba(39,195,181,0.35)_0%,_rgba(39,195,181,0)_72%)]' />
+          <div className='relative fade-rise stagger-1 px-1 sm:px-4 lg:px-0'>
+            <div className='pointer-events-none absolute -left-8 -top-10 h-36 w-36 rounded-full bg-[radial-gradient(circle,_rgba(39,195,181,0.35)_0%,_rgba(39,195,181,0)_72%)] sm:-left-16 sm:-top-12 sm:h-44 sm:w-44' />
 
             <div className='relative mx-auto max-w-[470px] rounded-[30px] border border-white/70 bg-white/80 p-4 shadow-[0_24px_70px_rgba(45,68,146,0.18)] backdrop-blur'>
               <div className='finance-grid rounded-[24px] border border-[#e8edff] bg-white p-4'>
@@ -121,7 +124,7 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                <div className='mt-4 grid grid-cols-4 gap-2 text-center text-[11px] text-slate-600'>
+                <div className='mt-4 grid grid-cols-2 gap-2 text-center text-[11px] text-slate-600 sm:grid-cols-4'>
                   {["Add", "Pause", "Cancel", "Export"].map((action) => (
                     <div
                       key={action}
@@ -155,7 +158,7 @@ export default function HomePage() {
             </div>
 
             <div
-              className='float-soft absolute -right-3 bottom-14 hidden w-44 rounded-2xl border border-white/70 bg-white p-4 shadow-[0_16px_42px_rgba(43,66,145,0.22)] md:block'
+              className='float-soft absolute -right-2 bottom-10 hidden w-40 rounded-2xl border border-white/70 bg-white p-4 shadow-[0_16px_42px_rgba(43,66,145,0.22)] md:block lg:-right-3 lg:bottom-14 lg:w-44'
               style={{ animationDelay: "1.2s" }}
             >
               <p className='text-xs font-semibold uppercase tracking-[0.12em] text-slate-500'>
@@ -170,7 +173,7 @@ export default function HomePage() {
             </div>
 
             <div
-              className='float-soft absolute -left-5 top-20 hidden w-40 rounded-2xl border border-[#d9ebff] bg-white p-4 shadow-[0_16px_40px_rgba(60,110,170,0.14)] sm:block'
+              className='float-soft absolute -left-2 top-14 hidden w-36 rounded-2xl border border-[#d9ebff] bg-white p-4 shadow-[0_16px_40px_rgba(60,110,170,0.14)] sm:block lg:-left-5 lg:top-20 lg:w-40'
               style={{ animationDelay: "0.6s" }}
             >
               <p className='text-xs font-semibold uppercase tracking-[0.12em] text-slate-500'>
@@ -188,7 +191,7 @@ export default function HomePage() {
 
         <section
           id='alerts'
-          className='fade-rise stagger-1 rounded-3xl border border-white/75 bg-white/65 px-6 py-8 backdrop-blur'
+          className='fade-rise stagger-1 rounded-3xl border border-white/75 bg-white/65 px-5 py-7 backdrop-blur sm:px-6 sm:py-8'
         >
           <p className='inline-flex rounded-full border border-[var(--finance-border)] bg-white px-3 py-1 text-xs font-semibold tracking-wide text-[var(--finance-primary)]'>
             Renewal and Budget Alerts
@@ -227,7 +230,7 @@ export default function HomePage() {
 
         <section
           id='pricing'
-          className='fade-rise stagger-2 mt-2 grid gap-6 rounded-3xl border border-[#dde7ff] bg-[linear-gradient(145deg,#ffffff,#edf3ff)] p-6 md:grid-cols-[1.1fr_0.9fr]'
+          className='fade-rise stagger-2 mt-2 grid gap-6 rounded-3xl border border-[#dde7ff] bg-[linear-gradient(145deg,#ffffff,#edf3ff)] p-5 sm:p-6 md:grid-cols-[1.1fr_0.9fr]'
         >
           <div>
             <p className='inline-flex rounded-full border border-[var(--finance-border)] bg-white px-3 py-1 text-xs font-semibold tracking-wide text-[var(--finance-primary)]'>
@@ -252,7 +255,7 @@ export default function HomePage() {
             <p className='text-xs font-semibold uppercase tracking-[0.12em] text-slate-500'>
               Last 7 Months Spend
             </p>
-            <div className='mt-4 flex h-40 items-end gap-3'>
+            <div className='mt-4 flex h-32 items-end gap-2 sm:h-40 sm:gap-3'>
               {monthlySeries.map((value, i) => (
                 <div
                   key={value + i}
@@ -293,7 +296,8 @@ export default function HomePage() {
               FAQ
             </p>
             <h4 className='mt-3 font-[family-name:var(--font-space-grotesk)] text-xl font-semibold text-[var(--finance-ink)]'>
-              "Can I track personal and team subscriptions in one place?"
+              &quot;Can I track personal and team subscriptions in one
+              place?&quot;
             </h4>
             <p className='mt-3 text-sm text-[var(--finance-muted)]'>
               Yes. Create separate workspaces and switch between personal and

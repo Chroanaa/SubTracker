@@ -337,13 +337,13 @@ export default async function DashboardPage() {
               <div className='flex flex-wrap gap-2 md:justify-end'>
                 <button
                   type='button'
-                  className='whitespace-nowrap rounded-full border border-[#ffd6c3] bg-[#fff3ed] px-3 py-1 text-xs font-semibold text-[#b45328]'
+                  className='min-h-9 whitespace-nowrap rounded-full border border-[#ffd6c3] bg-[#fff3ed] px-3 py-1 text-xs font-semibold text-[#b45328]'
                 >
                   Cancel
                 </button>
                 <Link
                   href='/auth/pages/servicepage'
-                  className='whitespace-nowrap rounded-full border border-[#dce6ff] bg-[#f6f9ff] px-3 py-1 text-xs font-semibold text-[var(--finance-primary)]'
+                  className='min-h-9 whitespace-nowrap rounded-full border border-[#dce6ff] bg-[#f6f9ff] px-3 py-1 text-xs font-semibold text-[var(--finance-primary)]'
                 >
                   View
                 </Link>
@@ -379,7 +379,7 @@ export default async function DashboardPage() {
               <div className='absolute inset-0 m-auto h-14 w-14 rounded-full bg-white shadow-[0_8px_20px_rgba(53,78,154,0.12)] sm:h-16 sm:w-16' />
             </div>
 
-            <div className='flex-1 space-y-3'>
+            <div className='w-full flex-1 space-y-3'>
               {categoryData.map((entry) => (
                 <div
                   key={entry.category}
@@ -442,7 +442,7 @@ export default async function DashboardPage() {
               </svg>
             </div>
 
-            <div className='mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6'>
+            <div className='mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6'>
               {monthlyTrend.map((entry) => {
                 const barHeight = (entry.spend / maxTrendSpend) * 100;
 
@@ -495,7 +495,7 @@ export default async function DashboardPage() {
           {subscriptionsWithDates.map((item) => (
             <article
               key={item.id}
-              className='grid gap-4 rounded-2xl border border-[#e8edff] bg-white p-4 shadow-[0_10px_24px_rgba(53,78,154,0.06)] xl:grid-cols-[minmax(0,1.5fr)_minmax(110px,0.6fr)_minmax(120px,0.7fr)_minmax(140px,0.85fr)_minmax(150px,0.9fr)_minmax(110px,0.65fr)_auto] xl:items-center'
+              className='grid gap-4 rounded-2xl border border-[#e8edff] bg-white p-4 shadow-[0_10px_24px_rgba(53,78,154,0.06)] sm:grid-cols-2 xl:grid-cols-[minmax(0,1.5fr)_minmax(110px,0.6fr)_minmax(120px,0.7fr)_minmax(140px,0.85fr)_minmax(150px,0.9fr)_minmax(110px,0.65fr)_auto] xl:items-center'
             >
               <div className='min-w-0'>
                 <p className='truncate text-sm font-semibold text-[var(--finance-ink)]'>
@@ -550,23 +550,23 @@ export default async function DashboardPage() {
                 </span>
               </div>
 
-              <div className='flex flex-wrap gap-2 xl:justify-end'>
+              <div className='flex flex-wrap gap-2 sm:col-span-2 xl:col-span-1 xl:justify-end'>
                 <button
                   type='button'
-                  className='whitespace-nowrap rounded-full border border-[#dce6ff] bg-[#f6f9ff] px-3 py-1 text-xs font-semibold text-[var(--finance-primary)]'
+                  className='min-h-9 whitespace-nowrap rounded-full border border-[#dce6ff] bg-[#f6f9ff] px-3 py-1 text-xs font-semibold text-[var(--finance-primary)]'
                 >
                   Edit
                 </button>
                 <button
                   type='button'
-                  className='whitespace-nowrap rounded-full border border-[#ffd6c3] bg-[#fff3ed] px-3 py-1 text-xs font-semibold text-[#b45328]'
+                  className='min-h-9 whitespace-nowrap rounded-full border border-[#ffd6c3] bg-[#fff3ed] px-3 py-1 text-xs font-semibold text-[#b45328]'
                 >
                   Delete
                 </button>
                 <button
                   type='button'
                   disabled={item.status === "Cancelled"}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
+                  className={`min-h-9 rounded-full px-3 py-1 text-xs font-semibold ${
                     item.status === "Cancelled"
                       ? "cursor-not-allowed border border-slate-200 bg-slate-100 text-slate-400"
                       : "border border-amber-200 bg-amber-50 text-amber-700"

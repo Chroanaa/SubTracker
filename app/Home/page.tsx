@@ -1,7 +1,5 @@
-import React from "react";
+import { redirect } from "next/navigation";
 
-function index() {
-  return <div>index</div>;
+export default function HomeAliasPage() {
+  redirect("/");
 }
-
-export default index;

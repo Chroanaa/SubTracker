@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 type IconName =
   | "dashboard"
@@ -180,6 +181,7 @@ export default function Sidebar({ user }: SidebarProps) {
   const displayName = user?.name ?? "Alexandra";
   const email = user?.email ?? "alexandra@ui.com";
   const pathname = usePathname();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const isActivePath = (href: string) => {
     if (!pathname) return false;
@@ -189,31 +191,138 @@ export default function Sidebar({ user }: SidebarProps) {
 
   return (
     <>
-      <div className='border-b border-white/70 bg-white/75 px-4 py-3 backdrop-blur lg:hidden'>
-        <nav className='mx-auto flex w-full max-w-7xl gap-2 overflow-x-auto'>
-          {navItems.map((item) => {
-            const isActive = isActivePath(item.href);
+      <div className='sticky top-0 z-40 border-b border-white/70 bg-white/80 px-4 py-3 backdrop-blur lg:hidden'>
+        <div className='mx-auto flex w-full max-w-7xl items-center justify-between gap-3'>
+          <Link href='/' className='inline-flex items-center gap-3'>
+            <span className='grid h-10 w-10 place-items-center rounded-full bg-[linear-gradient(135deg,var(--finance-primary),#69a7ff)] text-xs font-extrabold tracking-wide text-white shadow-[0_12px_24px_rgba(61,99,255,0.35)]'>
+              ST
+            </span>
+            <span className='text-sm font-bold text-[var(--finance-ink)]'>
+              Dashboard
+            </span>
+          </Link>
 
-            return (
-              <Link
-                key={`mobile-nav-${item.href}`}
-                href={item.href}
-                aria-current={isActive ? "page" : undefined}
-                className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
-                  isActive
-                    ? "border-[var(--finance-primary)] bg-[rgba(61,99,255,0.1)] text-[var(--finance-primary)]"
-                    : "border-white/70 bg-white/90 text-[var(--finance-muted)] hover:border-[var(--finance-border)] hover:text-[var(--finance-ink)]"
+          <button
+            type='button'
+            aria-label={
+              isDrawerOpen ? "Close sidebar menu" : "Open sidebar menu"
+            }
+            aria-expanded={isDrawerOpen}
+            aria-controls='mobile-sidebar-drawer'
+            onClick={() => setIsDrawerOpen((open) => !open)}
+            className='inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--finance-border)] bg-white text-[var(--finance-ink)] shadow-sm transition-colors hover:bg-slate-50'
+          >
+            <span className='sr-only'>Toggle sidebar</span>
+            <span className='relative h-4 w-5'>
+              <span
+                className={`absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-200 ${
+                  isDrawerOpen ? "translate-y-[7px] rotate-45" : ""
                 }`}
-              >
-                <SidebarIcon name={item.icon} className='h-4 w-4' />
-                {item.label}
-              </Link>
-            );
-          })}
-        </nav>
+              />
+              <span
+                className={`absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-200 ${
+                  isDrawerOpen ? "opacity-0" : "opacity-100"
+                }`}
+              />
+              <span
+                className={`absolute left-0 top-[14px] h-0.5 w-5 rounded-full bg-current transition-transform duration-200 ${
+                  isDrawerOpen ? "-translate-y-[7px] -rotate-45" : ""
+                }`}
+              />
+            </span>
+          </button>
+        </div>
       </div>
 
-      <aside className='sticky top-0 hidden h-screen w-72 shrink-0 self-start p-4 lg:flex'>
+      <div
+        className={`fixed inset-0 z-50 lg:hidden ${
+          isDrawerOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+        aria-hidden={!isDrawerOpen}
+      >
+        <button
+          type='button'
+          aria-label='Close sidebar menu'
+          onClick={() => setIsDrawerOpen(false)}
+          className={`absolute inset-0 bg-[rgba(17,21,44,0.28)] transition-opacity duration-200 ${
+            isDrawerOpen ? "opacity-100" : "opacity-0"
+          }`}
+        />
+
+        <aside
+          id='mobile-sidebar-drawer'
+          className={`absolute left-0 top-0 flex h-full w-[min(88vw,340px)] flex-col overflow-y-auto border-r border-white/70 bg-[#f7f9ff] p-4 shadow-[0_24px_70px_rgba(17,21,44,0.2)] transition-transform duration-200 ${
+            isDrawerOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className='flex items-center justify-between gap-3'>
+            <Link
+              href='/'
+              onClick={() => setIsDrawerOpen(false)}
+              className='inline-flex items-center gap-3'
+            >
+              <span className='grid h-10 w-10 place-items-center rounded-full bg-[linear-gradient(135deg,var(--finance-primary),#69a7ff)] text-xs font-extrabold tracking-wide text-white shadow-[0_12px_24px_rgba(61,99,255,0.35)]'>
+                ST
+              </span>
+              <span className='text-base font-bold text-[var(--finance-ink)]'>
+                Dashboard
+              </span>
+            </Link>
+
+            <button
+              type='button'
+              aria-label='Close sidebar menu'
+              onClick={() => setIsDrawerOpen(false)}
+              className='inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--finance-border)] bg-white text-sm font-semibold leading-none text-[var(--finance-ink)]'
+            >
+              Close
+            </button>
+          </div>
+
+          <nav className='mt-8 space-y-2'>
+            {navItems.map((item) => {
+              const isActive = isActivePath(item.href);
+
+              return (
+                <Link
+                  key={`mobile-drawer-${item.href}`}
+                  href={item.href}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => setIsDrawerOpen(false)}
+                  className={`flex items-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold transition ${
+                    isActive
+                      ? "border-[var(--finance-primary)] bg-[rgba(61,99,255,0.08)] text-[var(--finance-ink)]"
+                      : "border-transparent bg-white/75 text-[var(--finance-muted)] hover:border-[var(--finance-border)] hover:bg-white hover:text-[var(--finance-ink)]"
+                  }`}
+                >
+                  <SidebarIcon name={item.icon} className='h-4 w-4' />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className='mt-auto rounded-2xl border border-[var(--finance-border)] bg-white p-4'>
+            <p className='text-xs font-semibold uppercase tracking-[0.12em] text-[var(--finance-muted)]'>
+              Signed in as
+            </p>
+            <p className='mt-2 truncate text-sm font-semibold text-[var(--finance-ink)]'>
+              {displayName}
+            </p>
+            <p className='truncate text-xs text-[var(--finance-muted)]'>
+              {email}
+            </p>
+            <a
+              href='/auth/logout'
+              className='mt-4 inline-flex w-full items-center justify-center rounded-xl border border-[var(--finance-border)] bg-white px-3 py-2 text-sm font-semibold text-[var(--finance-ink)] transition hover:bg-slate-50'
+            >
+              Log out
+            </a>
+          </div>
+        </aside>
+      </div>
+
+      <aside className='sticky top-0 hidden h-screen w-72 shrink-0 self-start p-4 lg:flex xl:w-80'>
         <div className='flex h-full w-full flex-col rounded-2xl border border-white/70 bg-white/80 p-4 backdrop-blur'>
           <Link href='/' className='inline-flex items-center gap-3'>
             <span className='grid h-10 w-10 place-items-center rounded-full bg-[linear-gradient(135deg,var(--finance-primary),#69a7ff)] text-xs font-extrabold tracking-wide text-white shadow-[0_12px_24px_rgba(61,99,255,0.35)]'>
